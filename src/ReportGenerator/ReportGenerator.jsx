@@ -16,8 +16,8 @@ class ReportGenerator extends React.Component {
     let width = doc.internal.pageSize.width;
     let height = width * hratio;
     doc.addImage(img, "JPEG", 20, 20, width, height);
-    let date = new Date();
-    doc.save(`report_${date}.pdf`);
+    let date = new Date().toISOString();
+    doc.save(`Report_${date}.pdf`);
   };
   render() {
     return (
