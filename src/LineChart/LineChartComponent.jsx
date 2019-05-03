@@ -1,7 +1,8 @@
 import React from "react";
+import "./LineChartComponent.css";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -18,7 +19,7 @@ const TABLE_LIST = [
   { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
 ];
-class BarChartComponent extends React.Component {
+class LineChartComponent extends React.Component {
   state = {};
 
   componentWillMount() {
@@ -29,26 +30,26 @@ class BarChartComponent extends React.Component {
     const { list } = this.state;
     return (
       <ResponsiveContainer height={"auto"}>
-        <div id="barchart">
-          <BarChart
+        <div>
+          <LineChart
+            layout="vertical"
             width={600}
             height={300}
             data={list}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            layout="vertical"
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" />
+            <XAxis type="number" domain={[0, "dataMax + 1000"]} />
             <YAxis dataKey="name" type="category" />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#66bb6a" />
-            <Bar dataKey="uv" fill="#f9d631" />
-          </BarChart>
+            <Line dataKey="pv" stroke="#8884d8" />
+            <Line dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
         </div>
       </ResponsiveContainer>
     );
   }
 }
 
-export default BarChartComponent;
+export default LineChartComponent;

@@ -20,16 +20,7 @@ class ReportGenerator extends React.Component {
     doc.save(`Report_${date}.pdf`);
   };
   render() {
-    return (
-      <div>
-        <button
-          className="btn btn-primary"
-          onClick={() => this.generateReport()}
-        >
-          Export as PDF
-        </button>
-      </div>
-    );
+    return <div />;
   }
 }
 
