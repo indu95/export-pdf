@@ -10,13 +10,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 const TABLE_LIST = [
-  { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-  { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-  { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-  { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-  { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-  { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-  { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
+  { name: "Share Amongst Best Seller", Scarlett: 35, "Dr Susan Cream": 15 }
 ];
 class BarChartComponent extends React.Component {
   state = {};
@@ -24,26 +18,46 @@ class BarChartComponent extends React.Component {
   componentWillMount() {
     this.setState({ list: [...TABLE_LIST] });
   }
-
+  formatXAxis(tickItem) {
+    return `${tickItem}%`;
+  }
   render() {
     const { list } = this.state;
     return (
       <ResponsiveContainer height={"auto"}>
         <div id="barchart">
           <BarChart
-            width={600}
+            title="Share Amongst Best Seller"
+            barSize={50}
+            width={700}
             height={300}
             data={list}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             layout="vertical"
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" />
-            <YAxis dataKey="name" type="category" />
+            <CartesianGrid horizontal={false} strokeDasharray="3 3" />
+            <XAxis
+              type="number"
+              axisLine={false}
+              tick={{
+                fontSize: 15,
+                fontWeight: 300,
+                color: "black",
+                stroke: "black"
+              }}
+              tickFormatter={this.formatXAxis}
+            />
+            <YAxis dataKey="name" type="category" tick={false} />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="pv" fill="#66bb6a" />
-            <Bar dataKey="uv" fill="#f9d631" />
+            <Legend
+              verticalAlign="middle"
+              layout="vertical"
+              align="right"
+              wrapperStyle={{ padding: "10px", fontWeight: 600 }}
+            />
+
+            <Bar dataKey="Scarlett" fill="#234c10" />
+            <Bar dataKey="Dr Susan Cream" fill="#666666" />
           </BarChart>
         </div>
       </ResponsiveContainer>

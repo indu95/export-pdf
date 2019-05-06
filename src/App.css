@@ -33,3 +33,39 @@
 li {
   text-align: justify;
 }
+
+.chartBorder {
+  border-style: ridge;
+  border-radius: 60px;
+  margin: 10px;
+  border-color: #bad3f9;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* border-width: medium; */
+  border-width: 5px 5px 5px 5px;
+}
+
+.box {
+  display: inline-block;
+  padding: 0px;
+  max-width: 20px;
+}
+.box > div {
+  font-weight: bolder;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #b7d6aa;
+  width: 219px;
+  height: 36px;
+  transform: rotate(-90deg) translate(-100%, 0);
+  transform-origin: 0 0;
+  background: #b7d6aa;
+  font-size: larger;
+  margin-top: 36px;
+}
+
+.graphHeader {
+  font-size: 1rem;
+  font-weight: 900;
+  text-align: center;
+}
