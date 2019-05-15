@@ -2,9 +2,13 @@ import React from "react";
 import "./App.css";
 import BarChartComponent from "./BarChart/BarChartComponent";
 import html2canvas from "html2canvas";
-
 import jsPDF from "jspdf";
 import LineChartComponent from "./LineChart/LineChartComponent";
+import eyeImg from "../src/assets/images/eye.jpg";
+import newImg from "../src/assets/images/new.jpg";
+import logo from "../src/assets/images/logo.jpg";
+import html2pdf from "js-html2pdf";
+
 class App extends React.Component {
   state = {
     text: [
@@ -12,13 +16,15 @@ class App extends React.Component {
         value:
           " Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteursint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.",
 
-        key: "Scarlett"
+        key: "Scarlett",
+        image: "eye.jpg"
       },
 
       {
         key: "Dr Susan Cream",
         value:
-          " Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit ."
+          " Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit .",
+        image: "new.jpg"
       }
     ],
     reportOrientation: "p"
@@ -40,7 +46,7 @@ class App extends React.Component {
   generateMultiPageReport = () => {
     html2canvas(document.getElementById("charts"), {
       logging: false,
-      scale: 1
+      scale: 2
     }).then(canvas => {
       var contentWidth = canvas.width;
       var contentHeight = canvas.height;
@@ -76,64 +82,6 @@ class App extends React.Component {
     });
   };
 
-  generateReport = () => {
-    html2canvas(document.getElementById("charts"), { logging: false, scale: 1 })
-      .then(canvas => {
-        /* Alternate-1 let wid, hgt;
-        let img = canvas.toDataURL(
-          "image/png",
-          (wid = canvas.width),
-          (hgt = canvas.height)
-        );
-        let hratio = hgt / wid;
-        let doc = new jsPDF("l", "pt", "a4");
-        let width = doc.internal.pageSize.width;
-        let height = width * hratio;
-
-        doc.addImage(img, "JPEG", 20, 20, width, height);
-        let date = new Date().toISOString();
-        doc.save(`Report_${date}.pdf`);
- */
-
-        /*  Alternate-2 //Returns the image data URL, parameter: image format and clarity (0-1)
-  var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-  //Default vertical direction, size ponits, format a4[595.28,841.89]
-  var pdf = new jsPDF('', 'pt', 'a4');
-
-  //Two parameters after addImage control the size of the added image, where the page height is compressed according to the width-height ratio column of a4 paper.
-  pdf.addImage(pageData, 'JPEG', 0, 0, 595.28, 592.28/canvas.width * canvas.height );
-
-  pdf.save('stone.pdf'); */
-
-        let imgData = canvas.toDataURL("image/png");
-        let imgWidth = 210;
-        if (this.state.reportOrientation === "l") imgWidth = 310;
-        let pageHeight = 295;
-        let imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let heightLeft = imgHeight;
-
-        let doc = new jsPDF(this.state.reportOrientation, "mm");
-        let position = 0;
-
-        doc.addImage(imgData, "JPEG", 8, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          doc.addPage();
-
-          doc.addImage(imgData, "JPEG", 8, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-        let date = new Date().toISOString();
-        doc.save(`Report_${date}.pdf`);
-      })
-      .catch(function(error) {
-        console.error("oops, something went wrong!", error);
-      });
-  };
-
   render() {
     let chartBorder = {
       borderStyle: "ridge",
@@ -156,11 +104,14 @@ class App extends React.Component {
             style={{
               textAlign: "center",
               marginBottom: "30px",
-              marginTop: "20px"
+              marginTop: "20px",
+              merginLeft: "4%"
             }}
           >
             PERSONAL CARE - SHOPEE
+            <img src={logo} style={{ width: "18%", float: "right" }} />
           </h1>
+
           <div className="row" id="chart1" style={chartBorder}>
             <div className="col-md-1 box">
               <div>Body Lotions & Butter</div>
@@ -173,10 +124,18 @@ class App extends React.Component {
             <div className="col-md-5">
               <ul>
                 {this.state.text.map((txt, index) => {
+                  let listStyle = {};
+                  if (txt.image === "eye.jpg")
+                    listStyle.backgroundImage = `url(${eyeImg})`;
+                  else if (txt.image === "new.jpg")
+                    listStyle.backgroundImage = `url(${newImg})`;
+
                   return (
-                    <li key={index}>
-                      <b>{txt.key}</b> : {txt.value}
-                    </li>
+                    <span key={index} className="list-menu" style={listStyle}>
+                      <li>
+                        <b>{txt.key}</b> : {txt.value}
+                      </li>
+                    </span>
                   );
                 })}
               </ul>
@@ -268,11 +227,7 @@ class App extends React.Component {
             </div>
           </div>
           <div className="row" id="chart7">
-            <div className="col-md-6">
-              <LineChartComponent />
-            </div>
-
-            <div className="col-md-5">
+            <div className="col-md-12">
               <ul>
                 {this.state.text.map((txt, index) => {
                   return (
@@ -285,11 +240,7 @@ class App extends React.Component {
             </div>
           </div>
           <div className="row" id="chart8">
-            <div className="col-md-6">
-              <BarChartComponent />
-            </div>
-
-            <div className="col-md-5">
+            <div className="col-md-12">
               <ul>
                 {this.state.text.map((txt, index) => {
                   return (

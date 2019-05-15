@@ -69,3 +69,12 @@ li {
   font-weight: 900;
   text-align: center;
 }
+.list-menu {
+  /*  background-image: url(../src/assets/images/eye.jpg); */
+  background-position: left top;
+  background-repeat: no-repeat;
+  padding-left: 55px; /* Adjust according to image size to push text across. */
+  background-size: 30px 30px;
+  display: inline-block;
+  z-index: 99999;
+}
